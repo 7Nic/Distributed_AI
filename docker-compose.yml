@@ -1,0 +1,16 @@
+version: "3.9"
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+      
+    # Para "linkar" a pasta atual com a pasta dentro do container. Juntando com o fato de estar em modo de desenvolvimento
+    # ao atualizar o código fora do container, ele irá atualizar automaticamente dentro do container e reiniciar com a mudança
+    # Muito útil para desenvolver (como o próprio nome diz)
+    volumes:
+      - .:/code
+    environment:
+      FLASK_ENV: development
+  redis:
+    image: "redis:alpine"
