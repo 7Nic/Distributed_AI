@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 from pathlib import Path
+from model import calc_similarity
 
 app = Flask(__name__)
 
@@ -8,7 +9,9 @@ def hello():
     s1 = request.form['sentence1']
     s2 = request.form['sentence2']
     print(s1, s2)
-    response = jsonify({'similarity': '90%'})
+    similarity = calc_similarity(s1, s2)
+    similarity = str(int(100*similarity)) + '%'
+    response = jsonify({'similarity': similarity})
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 

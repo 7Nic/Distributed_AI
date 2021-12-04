@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="style.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+  $("#send").click(function(){
+    // alert('teste')
+    $.post("http://127.0.0.1:5000/", 
+      {
+        sentence1: $('#sentence1').val(),
+        sentence2: $('#sentence2').val()
+      },
+      function(data, status){
+      console.log(data)
+      text = 'SIMILARITY - ' + data.similarity
+      $('#result').text(text)
+      // alert("Data: " + data.similarity + "\nStatus: " + status);
+    });
+  });
+});
+</script>
+</head>
+<body>
+<div class="background">
+    <div class="container">
+      <div class="screen">
+        <div class="screen-header">
+          <div class="screen-header-left">
+            <div class="screen-header-button close"></div>
+            <div class="screen-header-button maximize"></div>
+            <div class="screen-header-button minimize"></div>
+          </div>
+          <div class="screen-header-right">
+            <div class="screen-header-ellipsis"></div>
+            <div class="screen-header-ellipsis"></div>
+            <div class="screen-header-ellipsis"></div>
+          </div>
+        </div>
+        <div class="screen-body">
+          <div class="screen-body-item left">
+            <div class="app-title">
+              <span>SEMANTIC</span>
+              <span>SIMILARITY</span>
+            </div>
+          </div>
+          <div class="screen-body-item">
+            <div class="app-form">
+              <div class="app-form-group">
+                <input class="app-form-control" id="sentence1" placeholder="Sentence 1">
+              </div>
+              <div class="app-form-group">
+                <input class="app-form-control" id="sentence2" placeholder="Sentence 2">
+              </div>
+              <div class="app-form-group buttons">
+                <button class="app-form-button" id="send">SEND</button>
+              </div>
+              <div class="app-form-group">
+                <p id="result">SIMILARITY - </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+</body>
+</html>
