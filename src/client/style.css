@@ -151,7 +151,6 @@
     border-bottom: 1px solid #666;
     color: #ddd;
     font-size: 14px;
-    text-transform: uppercase;
     outline: none;
     transition: border-color .2s;
   }
@@ -200,6 +199,12 @@
     width: 20px;
     height: 20px;
     margin: 0 5px;
+  }
+
+  #result {
+    margin-top: 50px;
+    color: #ea1d6f;
+    font-size: 20px;
   }
   
   @media screen and (max-width: 520px) {
