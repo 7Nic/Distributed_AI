@@ -9,6 +9,7 @@
     font-size: 12px;
   }
   
+
   body, button, input {
     font-family: 'Montserrat', sans-serif;
     font-weight: 700;
@@ -109,7 +110,7 @@
     display: flex;
     flex-direction: column;
     position: relative;
-    color: #ea1d6f;
+    color: #ea1d6f; 
     font-size: 26px;
   }
   
@@ -239,3 +240,15 @@
     }
   }
   
+  div.ex1 {
+    background-color: #4d4d4f;
+    height: 220px;
+    width: 300px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    margin: auto;
+    padding: 10px;
+    border-radius: 15px;
+    font-family: 'Montserrat', sans-serif;
+    color: #ddd;
+  }
