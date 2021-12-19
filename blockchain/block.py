@@ -37,9 +37,19 @@ class Block:
         return current_hash
 
     @property
+    def info(self):
+        return {
+            "index": self._index, 
+            "data": self._data, 
+            "timestamp": self._timestamp, 
+            "previous_hash": self._previous_hash, 
+            "nounce": self._nounce
+        }
+    
+    @property
     def data(self):
         return self._data
-        
+
     @property
     def hash(self):
         return self._hash

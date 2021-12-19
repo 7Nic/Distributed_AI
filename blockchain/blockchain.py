@@ -76,9 +76,28 @@ class Blockchain:
         
         return (False, 0.0)
 
-    def print(self):
-        """
-        DEBUG
-        """
-        for idx, block in enumerate(self._chain):
-            print(f"Block {idx}: {block}")
+    def __str__(self) -> str:
+        chain_info = ""
+        for block in self._chain:
+            block_info_descriptions = ("Transaction", "Timestamp", "Previous-Hash", "Nounce")
+            block_info = list(block.info.values())[1:]
+            block_text = f"Block {block.index}\n" 
+            block_text += '\n'.join([f"\t{description}: {info}" for description, info in zip(block_info_descriptions, block_info)])
+            chain_info += f"{block_text}\n"
+        
+        return chain_info
+
+if __name__ == "__main__":
+    blockchain = Blockchain()
+    sample_data = [
+        ("king", "queen"),
+        ("apple", "fruit"),
+        ("sun", "light"),
+        ("love", "heart")
+    ]
+    
+    for idx, texts in enumerate(sample_data):
+        blockchain.add_transaction(*texts)
+        blockchain.mine()    
+    
+    print(blockchain)
