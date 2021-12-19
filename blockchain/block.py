@@ -22,6 +22,14 @@ class Block:
         self._hash = self.proof_of_work()
     
     def proof_of_work(self):
+        """
+        Calcula o nounce (number only computed once), que é um número adicionado ao
+        hash do bloco criado para atender às restrições de dificuldade criptográficas.
+        Como consequência, recalcula também o hash do bloco criado.
+
+        Returns:
+            current_hash: novo hash calculado para o bloco, baseado no nounce determinado.
+        """
         current_hash = to_hash(str(self))
         while not is_valid_proof(current_hash):
             self._nounce += 1
