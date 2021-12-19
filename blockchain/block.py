@@ -37,6 +37,10 @@ class Block:
         return current_hash
 
     @property
+    def data(self):
+        return self._data
+        
+    @property
     def hash(self):
         return self._hash
     
