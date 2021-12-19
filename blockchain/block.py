@@ -4,7 +4,7 @@ from typing import Any
 from validation import to_hash, is_valid_proof
 
 class Block:
-    def __init__(self, index: int, data: Any, previous_hash, proof: int):
+    def __init__(self, index: int, data: Any, previous_hash):
         """
         Classe definindo um bloco de um Blockchain.
 
@@ -39,6 +39,10 @@ class Block:
     @property
     def hash(self):
         return self._hash
+    
+    @property
+    def index(self):
+        return self._index
 
     def __str__(self):
         return f"{self._index} {self._data} {self._timestamp} {self._previous_hash} {self._nounce}"
