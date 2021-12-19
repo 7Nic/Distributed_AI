@@ -4,7 +4,7 @@ import tensorflow_hub as hub
 import tensorflow as tf
 import tensorflow_text
 from scipy import spatial
-from typing import Tuple
+from typing import Iterable, Tuple
 
 model = hub.load("https://tfhub.dev/google/universal-sentence-encoder-multilingual/3")
 
@@ -38,6 +38,27 @@ class Similarity:
             return self._first_string == other._first_string and self._second_string == other._second_string
         return False
 
+    def same_text(self, other: Iterable[str]) -> bool:
+        """
+        Dado um iterável contendo strings, verifica se o iterável possui os mesmos textos
+        que a instância da classe de Similaridade.
+
+        Args:
+            other (Iterable[str]): iterável contendo strings.
+        
+        Returns:
+            (bool): True se o iterável possuir o mesmo conjunto de textos que a instância
+            da classe Similaridade, False do contrário.
+        """
+        if len(self.texts) != len(other):
+            return False
+        
+        for text, other_text in zip(self.texts, other):
+            if text != other_text:
+                return False
+        
+        return True
+        
 def compute_similarity(first_string: str, second_string: str) -> float:
     """
     Calcula a similaridade semântica entre dois textos fornecidos.
