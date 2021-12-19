@@ -52,13 +52,9 @@ class Similarity:
         """
         if len(self.texts) != len(other):
             return False
-        
-        for text, other_text in zip(self.texts, other):
-            if text != other_text:
-                return False
-        
-        return True
-        
+                
+        return set(self.texts) == set(other)
+
 def compute_similarity(first_string: str, second_string: str) -> float:
     """
     Calcula a similaridade semântica entre dois textos fornecidos.
