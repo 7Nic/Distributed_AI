@@ -3,6 +3,7 @@ import pathlib
 from typing import Tuple
 
 from block import Block
+from document import Document
 from similarity import Similarity
 
 class Blockchain:
@@ -27,7 +28,8 @@ class Blockchain:
         """
         Cria um bloco primordial para o Blockchain.
         """
-        genesis_block = Block(0, Similarity("Satoshi", "Nakamoto"), "0"*32)
+        blockchain_doc, ai_doc = Document("Satoshi-Nakamoto", "Blockchain will change the world!"), Document("Andrew-Ng", "AI will change the world!")
+        genesis_block = Block(0, Similarity(blockchain_doc, ai_doc), "0"*32)
         self._chain.append(genesis_block)
 
     @property
@@ -37,15 +39,15 @@ class Blockchain:
         """
         return self._chain[-1]
     
-    def add_transaction(self, first_string: str, second_string: str):
+    def add_transaction(self, first_document: Document, second_document: Document):
         """
-        Registra os dados (textos a serem comparados) de uma nova transação.
+        Registra os dados (documentos a serem comparados) de uma nova transação.
 
         Args:
-            first_string, second_string (str): textos em que se 
+            first_string, second_string (Document): documents em que se 
             deve aplicar o cálculo de similaridade semântica.
         """
-        self._incoming_data = (first_string, second_string)
+        self._incoming_data = (first_document, second_document)
 
     def mine(self):
         if self._incoming_data is None:
@@ -53,7 +55,7 @@ class Blockchain:
 
         found, text_similarity = self._search_texts()
         if found:
-            print(f"Similaridade entre os textos {' e '.join([*self._incoming_data])} já havia sido calculada anteriormente.")
+            print(f"Similaridade entre os documentos {' e '.join([doc.title for doc in self._incoming_data])} já havia sido calculada anteriormente.")
             return text_similarity
 
         last_block = self.last_block
@@ -82,7 +84,7 @@ class Blockchain:
             retorna uma tupla contendo False e 0.0
         """
         for block in self._chain:
-            if block.data.same_text(self._incoming_data):
+            if block.data.same_document(self._incoming_data):
                 return (True, block.data.similarity)
         
         return (False, 0.0)
@@ -90,7 +92,7 @@ class Blockchain:
     def __str__(self) -> str:
         chain_info = ""
         for block in self._chain:
-            block_info_descriptions = ("Transaction", "Timestamp", "Previous-Hash", "Nounce")
+            block_info_descriptions = ("Transaction", "Timestamp", "Previous-Hash", "Hash", "Nounce")
             block_info = list(block.info.values())[1:]
             block_text = f"Block {block.index}\n" 
             block_text += '\n'.join([f"\t{description}: {info}" for description, info in zip(block_info_descriptions, block_info)])
@@ -101,10 +103,11 @@ class Blockchain:
 if __name__ == "__main__":
     blockchain = Blockchain()
     sample_data = [
-        ("king", "queen"),
-        ("apple", "fruit"),
-        ("sun", "light"),
-        ("love", "heart")
+        (Document("king", "long live the king"), Document("queen", "long live the queen")),
+        (Document("Apple", "history of a company"), Document("Fruit", "history of an apple")),
+        (Document("sun", "light"), Document("moon", "dark")),
+        (Document("love", "heart"), Document("heart", "love")),
+        (Document("king", "long live the king"), Document("queen", "long live the queen")),
     ]
     
     for idx, texts in enumerate(sample_data):

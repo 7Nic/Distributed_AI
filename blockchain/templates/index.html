@@ -4,20 +4,6 @@
 <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/mainpage.css') }}">
 <script src="{{ url_for('static',filename='jquery.min.js') }}"> </script>
 <script>
-$(document).ready(function(){
-  $("#send").click(function(){
-    $.post("http://127.0.0.1:5000/", 
-      {
-        sentence1: $("#sentence1").val(),
-        sentence2: $("#sentence2").val()
-      },
-      function(data, status) {
-      console.log(data)
-      text = "SIMILARITY - " + data.similarity
-      $("#result").text(text)
-    });
-  });
-});
 
 $(document).ready(function(){
   $("#get").click(function(){
@@ -65,11 +51,11 @@ $(document).ready(function(){
               -->
               <span class="app-text"> Documento 1</span>
               <br>
-              <form class=app-form-button:hover>
+              <form class=app-form-button:hover action = "http://localhost:5000/upload" method="POST" action="" enctype="multipart/form-data" name="docsform">
                 <div class="upload-btn-wrapper">
                   <button class="btn">UPLOAD</button>
                   <br>
-                  <input type="file" name="doc1" />
+                  <input type="file" name="doc1"/>
                 </div>
                 <br/><br/>
 
@@ -78,11 +64,14 @@ $(document).ready(function(){
                 <div class="upload-btn-wrapper">
                   <button class="btn">UPLOAD</button>
                   <br>
-                  <input type="file" name="doc2" />
+                  <input type="file" name="doc2"/>
                 </div>
                 
-                <input class="app-form-button"  type="submit" />
+                <input class="app-form-button" id="submit" type="submit" />
              </form>
+            <!-- <div class="app-form-group buttons">
+              <button class="app-form-button" id="send">SEND</button>
+            </div> -->
              <!-- 
               <div class="app-form-group">
                 <input class="app-form-control" id="sentence2" placeholder="Sentence 2">
@@ -91,8 +80,12 @@ $(document).ready(function(){
                 <button class="app-form-button" id="send">SEND</button>
               </div>
               -->
-              <div class="app-form-group">
+              
+              <!--<div class="app-form-group">
                 <p id="result">SIMILARITY - </p>
+              </div>-->
+              <div class="app-form-group">
+                <p id="result"> {{similarity}} </p>
               </div>
             </div>
           </div>
@@ -162,10 +155,11 @@ $(document).ready(function(){
               -->
               
               <div class="app-form">
+                <pre>
                   <div class="ex1" id="blockchain-info" placeholder="Blockchain Information">
                     Blockchain Information
                   </div>
-
+                </pre>
                 <br> </br>
 
                 <div class="app-form-group buttons">

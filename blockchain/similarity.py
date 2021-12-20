@@ -53,11 +53,11 @@ class Similarity:
             (bool): True se o iterável possuir o mesmo conjunto de textos que a instância
             da classe Similaridade, False do contrário.
         """
-        if len(self.documents) != len(other.documents):
+        if len(self.documents) != len(other):
             return False
                 
-        return set([document.title for document in self.documents]) == set([document.title for document in other.documents]) \
-            and set([document.body for document in self.documents]) == set([document.body for document in other.documents])
+        return set([document.title for document in self.documents]) == set([document.title for document in other]) \
+            and set([document.body for document in self.documents]) == set([document.body for document in other])
 
 def compute_similarity(first_string: str, second_string: str) -> float:
     """
