@@ -1,17 +1,28 @@
+from os import path
+import pathlib
 from typing import Tuple
 
 from block import Block
 from similarity import Similarity
 
 class Blockchain:
-    def __init__(self):
+    def __init__(self, database_path: pathlib.Path=None, load: bool=False):
         """
         Classe representando um Blockchain.
         """
         self._chain = []
-        self._create_genesis_block()
         self._incoming_data = None
-    
+        if load:
+            self._load_database()
+        else:
+            self._create_genesis_block()
+        
+    def save_database(self):
+        pass
+
+    def _load_database(self):
+        pass
+
     def _create_genesis_block(self):
         """
         Cria um bloco primordial para o Blockchain.

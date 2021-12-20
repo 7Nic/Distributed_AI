@@ -39,11 +39,12 @@ class Block:
     @property
     def info(self):
         return {
-            "index": self._index, 
-            "data": self._data, 
-            "timestamp": self._timestamp, 
-            "previous_hash": self._previous_hash, 
-            "nounce": self._nounce
+            "Index": self._index, 
+            "Transaction": self._data, 
+            "Timestamp": self._timestamp, 
+            "Previous_hash": self._previous_hash,
+            "Hash": self._hash,
+            "Nounce": self._nounce
         }
     
     @property

@@ -8,13 +8,26 @@ $(document).ready(function(){
   $("#send").click(function(){
     $.post("http://127.0.0.1:5000/", 
       {
-        sentence1: $('#sentence1').val(),
-        sentence2: $('#sentence2').val()
+        sentence1: $("#sentence1").val(),
+        sentence2: $("#sentence2").val()
       },
+      function(data, status) {
+      console.log(data)
+      text = "SIMILARITY - " + data.similarity
+      $("#result").text(text)
+    });
+  });
+});
+
+$(document).ready(function(){
+  $("#get").click(function(){
+    $.get("http://127.0.0.1:5000/getblockchain", {
+
+    },
       function(data, status){
       console.log(data)
-      text = 'SIMILARITY - ' + data.similarity
-      $('#result').text(text)
+      text = data.info
+      $("#blockchain-info").text(text)
     });
   });
 });
@@ -80,10 +93,11 @@ $(document).ready(function(){
         </div>
         <div style="color:yellow" class="screen-body" style="color:yellow">
           <div style="color:yellow" class="screen-body-item left" style="color:yellow">
-            <div style="color:yellow" class="app-title" style="color:yellow">
+            <div style="color:yellow" class="blockchain-info" style="color:yellow">
               <span style="color:yellow">BLOCKCHAIN INFO</span>
 
             </div>
+            
           </div>
           <div style="color:yellow" class="screen-body-item">
             <div style="color:yellow" class="app-form">
@@ -122,9 +136,19 @@ $(document).ready(function(){
                 As you can see, once there's enough text in this box, the box will grow scroll bars... that's why we call it a scroll box! You could also place an image into the scroll box kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk.
               </div>
               -->
+              
+              <div class="app-form">
+                <pre>
+                  <div class="ex1" id="blockchain-info" placeholder="Blockchain Information">
+                    Blockchain Information
+                  </div>
+                </pre>
 
-              <div class="ex1"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam semper diam at erat pulvinar, at pulvinar felis blandit. Vestibulum volutpat tellus diam, consequat gravida libero rhoncus ut.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam semper diam at erat pulvinar, at pulvinar felis blandit. Vestibulum volutpat tellus diam, consequat gravida libero rhoncus ut.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam semper diam at erat pulvinar, at pulvinar felis blandit. Vestibulum volutpat tellus diam, consequat gravida libero rhoncus ut.
+                <br> </br>
 
+                <div class="app-form-group buttons">
+                  <button class="app-form-button" id="get">GET</button>
+                </div>
               </div>
 
             </div>
