@@ -4,22 +4,27 @@ from typing import Any
 from validation import to_hash, is_valid_proof
 
 class Block:
-    def __init__(self, index: int, data: Any, previous_hash):
+    def __init__(self, index: int, data: Any, previous_hash, timestamp=None, nounce: int=None, hash=None):
         """
         Classe definindo um bloco de um Blockchain.
 
         Args:
             index (int): índice do bloco no Blockchain
-            data (Any): dados a serem armazenados no bloco.
             previous_hash: hash do bloco anterior.
-            proof (int): valor único utilizado para o Proof of Work dos blocos.
+            data (Any): dados a serem armazenados no bloco.
+            timestamp (datetime): Tempo em que o bloco foi criado. Por padrão é None; neste caso, o
+            o valor será aquele retornado no momento da criação da instância.
+            nounce (int): número utilizado na criptografia do bloco. Por padrão é None; neste caso,
+            o valor será calculado através do mecanismo de Proof of Work.
+            hash: hash do bloco. Por padrão é None; neste caso, o hash será calculado a partir do
+            mecanismo de Proof of Work, utilizando os demais atributos do bloco (incluindo o nounce).
         """        
         self._index = index
         self._data = data
-        self._timestamp = datetime.utcnow()
         self._previous_hash = previous_hash
-        self._nounce = 0
-        self._hash = self.proof_of_work()
+        self._timestamp = timestamp if timestamp is not None else datetime.utcnow()
+        self._nounce = nounce if nounce is not None else 0
+        self._hash = hash if hash is not None else self.proof_of_work()
     
     def proof_of_work(self):
         """

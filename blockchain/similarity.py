@@ -11,19 +11,22 @@ from document import Document
 model = hub.load("https://tfhub.dev/google/universal-sentence-encoder-multilingual/3")
 
 class Similarity:
-    def __init__(self, first_document: Document, second_document: Document):
+    def __init__(self, first_document: Document, second_document: Document, similarity: float=None):
         """
         Classe para armazenar informações sobre a similaridade
         entre documentos.
 
         Args:
-            first_document, second_document (Documento): instâncias
+            first_document, second_document (Document): instâncias
             de documentos em que se deve aplicar o cálculo de similaridade 
             semântica no corpo do texto.
+            similarity (float): similaridade entre os documentos. Por padrão é None; nesse caso,
+            o valor da similaridade será calculada utilizando um modelo de inteligência artificial
+            aplicado para tarefas de processamento de linguagem natural. 
         """
         self._first_document = first_document
         self._second_document = second_document
-        self._similarity = compute_similarity(first_document.body, second_document.body)
+        self._similarity = similarity if similarity is not None else compute_similarity(first_document.body, second_document.body)
     
     @property
     def similarity(self) -> float:
