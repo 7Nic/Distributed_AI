@@ -252,3 +252,35 @@
     font-family: 'Montserrat', sans-serif;
     color: #ddd;
   }
+
+  .upload-btn-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+  }
+  
+  .btn {
+    border: 2px solid #ea1d6f;
+    color: #ea1d6f;
+    background-color: #4d4d4f;
+    padding: 8px 20px;
+    border-radius: 8px;
+    font-size: 10px;
+    font-weight: bold;
+  }
+  
+  .upload-btn-wrapper input[type=file] {
+    font-size: 10px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+  }
+
+  .app-text {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    color: #ea1d6f; 
+    font-size: 12px;
+  }
