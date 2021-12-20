@@ -58,15 +58,39 @@ $(document).ready(function(){
           </div>
           <div class="screen-body-item">
             <div class="app-form">
+              <!-- 
               <div class="app-form-group">
                 <input class="app-form-control" id="sentence1" placeholder="Sentence 1">
               </div>
+              -->
+              <span class="app-text"> Documento 1</span>
+              <br>
+              <form class=app-form-button:hover>
+                <div class="upload-btn-wrapper">
+                  <button class="btn">UPLOAD</button>
+                  <br>
+                  <input type="file" name="doc1" />
+                </div>
+                <br/><br/>
+
+                <span class="app-text"> Documento 2</span>
+                <br>
+                <div class="upload-btn-wrapper">
+                  <button class="btn">UPLOAD</button>
+                  <br>
+                  <input type="file" name="doc2" />
+                </div>
+                
+                <input class="app-form-button"  type="submit" />
+             </form>
+             <!-- 
               <div class="app-form-group">
                 <input class="app-form-control" id="sentence2" placeholder="Sentence 2">
               </div>
               <div class="app-form-group buttons">
                 <button class="app-form-button" id="send">SEND</button>
               </div>
+              -->
               <div class="app-form-group">
                 <p id="result">SIMILARITY - </p>
               </div>
@@ -138,11 +162,9 @@ $(document).ready(function(){
               -->
               
               <div class="app-form">
-                <pre>
                   <div class="ex1" id="blockchain-info" placeholder="Blockchain Information">
                     Blockchain Information
                   </div>
-                </pre>
 
                 <br> </br>
 
