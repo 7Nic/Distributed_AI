@@ -1,8 +1,7 @@
 from flask.scaffold import F
 import pandas as pd
-import pathlib
-import sqlite3
 import sqlalchemy
+import tqdm
 from typing import Tuple
 
 from block import Block
@@ -29,7 +28,7 @@ class Blockchain:
         print("Saving database...")
         columns_names = list(self.last_block.info.keys())[2:] + ["First_title", "First_body", "Second_title", "Second_body", "Similarity"]
         chain_data = []
-        for block in self._chain:
+        for block in tqdm.tqdm(self._chain):
             # Recupera os dados contidos em um bloco (índice, data, hash etc.)
             block_info = [str(data) for data in block.info.values()]
 
@@ -50,7 +49,7 @@ class Blockchain:
         sql_engine = sqlalchemy.create_engine("sqlite:///blockchain.db", echo=False)
         dataframe = pd.read_sql("Blockchain", con=sql_engine)
 
-        for _, row in dataframe.iterrows():
+        for _, row in tqdm.tqdm(dataframe.iterrows(), total=dataframe.shape[0]):
             row = list(row)
             first_document, second_document = Document(row[-5], row[-4]), Document(row[-3], row[-2])
             similarity = Similarity(first_document, second_document, row[-1])
@@ -153,6 +152,6 @@ if __name__ == "__main__":
     print(blockchain)
     blockchain.save_database()
     
-    new_blockchain = Blockchain(load=True)
+    new_blockchain = Blockchain(load_database=True)
     print(f"Creating a new blockchain from the previous one...")
     print(new_blockchain)
