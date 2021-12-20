@@ -14,7 +14,7 @@ class Document:
     
     @classmethod
     def document_from_file(cls, filepath: pathlib.Path):
-        return cls(filepath.name, filepath.read_text())
+        return cls(filepath.name, filepath.read_text(encoding="utf8"))
 
     def __eq__(self, other) -> bool:
         if isinstance(other, Document):
