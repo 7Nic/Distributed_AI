@@ -1,5 +1,8 @@
-from os import path
+from flask.scaffold import F
+import pandas as pd
 import pathlib
+import sqlite3
+import sqlalchemy
 from typing import Tuple
 
 from block import Block
@@ -7,22 +10,53 @@ from document import Document
 from similarity import Similarity
 
 class Blockchain:
-    def __init__(self, database_path: pathlib.Path=None, load: bool=False):
+    def __init__(self, load_database: bool=False):
         """
         Classe representando um Blockchain.
+
+        Args
+            load_database (bool): Determina se o Blockchain deve ser criado do começo (utilizando um bloco
+            de gênesis) ou se deve ser inicializado a partir de um banco de dados.
         """
         self._chain = []
         self._incoming_data = None
-        if load:
+        if load_database:
             self._load_database()
         else:
             self._create_genesis_block()
         
     def save_database(self):
-        pass
+        print("Saving database...")
+        columns_names = list(self.last_block.info.keys())[2:] + ["First_title", "First_body", "Second_title", "Second_body", "Similarity"]
+        chain_data = []
+        for block in self._chain:
+            # Recupera os dados contidos em um bloco (índice, data, hash etc.)
+            block_info = [str(data) for data in block.info.values()]
+
+            # Recupera os dados contidos no bloco para serem salvos com todos os campos (nome dos arquivos, corpo dos documentos e similaridade)
+            transaction = block.info["Transaction"]
+            first_document, second_document = transaction.documents
+            block_info.extend([first_document.title, first_document.body, second_document.title, second_document.body, transaction.similarity])
+            chain_data.append(block_info[2:])
+        dataframe = pd.DataFrame(chain_data, columns=columns_names)
+        
+        sql_engine = sqlalchemy.create_engine("sqlite:///blockchain.db", echo=False)
+        dataframe.to_sql("Blockchain", con=sql_engine, if_exists="replace")
+
+        print("Save database complete!")
 
     def _load_database(self):
-        pass
+        print(f"Loading Database...")
+        sql_engine = sqlalchemy.create_engine("sqlite:///blockchain.db", echo=False)
+        dataframe = pd.read_sql("Blockchain", con=sql_engine)
+
+        for _, row in dataframe.iterrows():
+            row = list(row)
+            first_document, second_document = Document(row[-5], row[-4]), Document(row[-3], row[-2])
+            similarity = Similarity(first_document, second_document, row[-1])
+            block = Block(index=row[0], data=similarity, previous_hash=row[2], hash=row[3], nounce=row[4])
+            self._chain.append(block)
+        print("Load database complete!")
 
     def _create_genesis_block(self):
         """
@@ -64,7 +98,8 @@ class Blockchain:
         self._incoming_data = None
         
         # Nesse ponto, um novo bloco foi inserido de forma bem sucedida, e retorna-se a similaridade calculada
-        # entre os textos fornecidos.
+        # entre os textos fornecidos. Também pode-se atualizar o banco de dados.
+        self.save_database()
         return self.last_block.data.similarity
     
     def _search_texts(self) -> Tuple[bool, float]:
@@ -108,6 +143,7 @@ if __name__ == "__main__":
         (Document("sun", "light"), Document("moon", "dark")),
         (Document("love", "heart"), Document("heart", "love")),
         (Document("king", "long live the king"), Document("queen", "long live the queen")),
+        (Document("moon", "dark"), Document("sun", "light")),
     ]
     
     for idx, texts in enumerate(sample_data):
@@ -115,3 +151,8 @@ if __name__ == "__main__":
         blockchain.mine()    
     
     print(blockchain)
+    blockchain.save_database()
+    
+    new_blockchain = Blockchain(load=True)
+    print(f"Creating a new blockchain from the previous one...")
+    print(new_blockchain)
