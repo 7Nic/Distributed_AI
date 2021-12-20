@@ -124,6 +124,25 @@
     height: 4px;
     background: #ea1d6f;
   }
+
+  .blockchain-info {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    color: yellow; 
+    font-size: 26px;
+  }
+
+  .blockchain-info:after {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+    width: 25px;
+    height: 4px;
+    background: yellow;
+  }
   
   .app-contact {
     margin-top: auto;
@@ -243,9 +262,9 @@
   div.ex1 {
     background-color: #4d4d4f;
     height: 220px;
-    width: 300px;
+    width: 350px;
     overflow-y: scroll;
-    overflow-x: hidden;
+    overflow-x: scroll;
     margin: auto;
     padding: 10px;
     border-radius: 15px;
