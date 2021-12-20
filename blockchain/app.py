@@ -1,3 +1,4 @@
+import argparse
 import pathlib
 
 from flask import Flask, render_template, request, jsonify
@@ -33,7 +34,7 @@ def register_transaction():
     
     blockchain.add_transaction(*documents)
     similarity = blockchain.mine()
-    return render_template("index.html", similarity=f"SIMILARITY - {int(100*similarity)}%")
+    return render_template("index.html", similarity=f"SIMILARITY - {float(100*similarity):.2f}%")
 
 @app.route("/getblockchain", methods=["GET"])
 def send_blockchain():
@@ -42,5 +43,9 @@ def send_blockchain():
     return response
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--load_db", action="store_true", help="Determina se carrega o Blockchain a partir de um banco de dados ou o inicializa do princípio")
+    args = parser.parse_args()
+    blockchain = Blockchain(load_database=args.load_db)
     UPLOADS_PATH.mkdir(parents=True, exist_ok=True)
     app.run(debug=True)

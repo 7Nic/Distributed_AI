@@ -37,7 +37,7 @@ class Similarity:
         return (self._first_document, self._second_document)
 
     def __str__(self) -> str:
-        return f"Similaridade({self._first_document.title}, {self._second_document.title}) = {self._similarity:.2f}"
+        return f"Similaridade({self._first_document.title}, {self._second_document.title}) = {self._similarity:.4f}"
     
     def __eq__(self, other) -> bool:
         if isinstance(other, Similarity):
